@@ -1,4 +1,4 @@
-package com.example.noteapp; // 换成你的包名
+package com.example.noteapp;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -11,10 +11,12 @@ import java.util.List;
 @Dao
 public interface NoteDao {
 
-    @Query("SELECT * FROM notes")
+    @Query("SELECT * FROM notes ORDER BY created_at DESC")
     List<Note> getAll();
 
-    // 返回新插入行的 id
+    @Query("SELECT * FROM notes WHERE id = :id")
+    Note getById(int id);
+
     @Insert
     long insert(Note note);
 
@@ -23,4 +25,7 @@ public interface NoteDao {
 
     @Delete
     void delete(Note note);
+
+    @Query("DELETE FROM notes")
+    void deleteAll();
 }
